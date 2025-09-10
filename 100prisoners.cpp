@@ -1,6 +1,5 @@
-// ≽^•˕•^≼
 // compile: g++ -std=c++17 -O2 -Wall 100prisoners.cpp -o sim
-// Usage:
+// usage:
 //   ./sim                 -> N=10, trials=1
 //   ./sim N               -> custom N, trials=1
 //   ./sim N TRIALS        -> custom N and trials
@@ -24,16 +23,16 @@ struct Row {
 };
 
 int toResid(int num, int N) {
-    // Map 1..N -> residues 1..N-1 and N -> 0
+    // map 1..N -> residues 1..N-1 and N -> 0
     return (num == N) ? 0 : (num % N);
 }
 int fromResid(int resid, int N) {
-    // Map residue 0 back to N; others map to themselves
+    // map residue 0 back to N; others map to themselves
     return (resid == 0) ? N : resid;
 }
 
 
-// actual algorithm!
+// actual algorithm !! ------------------------------->
 static vector<Row> run_once(mt19937 &rng, int N) {
     uniform_int_distribution<int> dist(1, N);
 
@@ -53,10 +52,10 @@ static vector<Row> run_once(mt19937 &rng, int N) {
         long long seen = totalRaw - a[i];
         int S = static_cast<int>(seen % N); // seen mod N in 0..N-1
 
-        // 0-indexed rule: guessResid = (L - S) mod N
-        int gResid = (L - S) % N;
+        // 0-indexed rule: guessResid = (L - S)
+        int gResid = (L - S);
 
-        // because c++ keeps the sign of the left operand
+        // wrap it back to valid range (positive)
         if (gResid < 0) gResid += N;
 
         int g = fromResid(gResid, N);
@@ -72,7 +71,7 @@ static vector<Row> run_once(mt19937 &rng, int N) {
 
 
 
-// formatting and output
+// just formatting and output
 int main(int argc, char** argv) {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -110,7 +109,7 @@ int main(int argc, char** argv) {
         cout << "Residues (N->0):     ";
         for (int i = 0; i < N; ++i)
             cout << residues[i] << (i+1 < N ? ' ' : '\n');
-        cout << "Total residue T mod " << N << " = " << totalResid << "\n\n";
+        cout << "Total residue T mod " << N << " = " << totalResid << ". The prisoner with this label should be correct!\n\n";
 
         cout << left
              << setw(8)  << "Label"
@@ -135,7 +134,7 @@ int main(int argc, char** argv) {
         }
 
         cout << "\nAt least one correct? "
-             << (correctCount >= 1 ? "YES!! :D " : "NO but this answer will never be seen !")
+             << (correctCount >= 1 ? "Yes! :^) " : "No")
              << "   (count = " << correctCount << ")\n";
         cout << string(60, '-') << "\n";
 
@@ -144,7 +143,7 @@ int main(int argc, char** argv) {
 
     if (trials > 1) {
         cout << "\nSummary over " << trials << " trials:\n";
-        cout << "Trials with exactly one correct: "
+        cout << "Trials w/ exactly one correct: "
              << exactlyOneCount << " / " << trials << "\n";
     }
 
