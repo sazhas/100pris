@@ -1,6 +1,7 @@
 # 100 Prisoners — Group Strategy Simulator
 
 I am tryharding this readme
+
 This program simulates the classic “100 prisoners” (hat/number guessing) group strategy that **guarantees at least one prisoner guesses their number correctly**. It lets you vary the group size `N` and the number of Monte Carlo trials.
 
 ---
